@@ -15,17 +15,19 @@
         <img v-bind:src="image" v-bind:alt="alttext">
       </div>
       <div class="product-info">
-        <h1>{{product}}</h1>
+        <h1>{{ product }}</h1>
         <p v-if="inStock">In Stock</p>
         <p v-else>Out of Stock</p>
         <ul>
-          <li v-for="detail in details">{{detail}}</li>
-        </ul>
-        <ul>
-          <li v-for="size in sizes">{{size}}</li>
+          <li v-for="detail in details">{{ detail }}</li>
         </ul>
         <div v-for="variant in variants" :key="variant.variantId">
-          <p>{{variant.variantColor}}</p>
+            <p @mouseover="updateProduct(variant.variantImage)">{{ variant.variantColor }}</p>
+        </div>
+        <button @click="addToCart">Add to Cart</button>
+        <button @click="removeFromCart">Remove from Cart</button>
+        <div class="cart">
+          <p>Cart({{ cart }})</p>
         </div>
       </div>
     </div>
@@ -35,6 +37,7 @@
   <script>
     var app = new Vue({
       el: '#app',
+
       data: {
         product: "Socks",
         image: "src/assets/vmSocks-green-onWhite_preview.jpeg",
@@ -42,18 +45,30 @@
         link: "https://www.google.com",
         inStock: true,
         details: ["80% cotton", "20% polyester", "Gender-neutral"],
-        inventory: 100,
-        onSale: true,
         variants: [{
             variantId: 2234,
             variantColor: "green",
+            variantImage: "src/assets/vmSocks-green-onWhite_preview.jpeg",
           },
           {
             variantId: 2235,
             variantColor: "blue",
+            variantImage: "src/assets/vmSocks-blue-onWhite_preview.jpeg",
           }
         ],
-        sizes: ['S', 'M', 'L', 'XL', 'XXL', 'XXXL']
+        cart: 0,
+      },
+      methods: {
+        addToCart() {
+          this.cart += 1
+        },
+        removeFromCart(){
+          this.cart -=1
+        },
+
+        updateProduct(variantImage) {
+          this.image = variantImage
+        }
       }
     })
 
