@@ -16,12 +16,17 @@
       </div>
       <div class="product-info">
         <h1>{{product}}</h1>
-        <p v-if="inventory > 10">In Stock</p>
-        <p v-else-if="inventory < 10 && inventory > 0">Almost sold out</p>
+        <p v-if="inStock">In Stock</p>
         <p v-else>Out of Stock</p>
-        <p v-show="inStock">In Stock</p>
-        <span v-if="onSale">On Sale!</span>
-        <a v-bind:href="link" class="product-link">Show more</a>
+        <ul>
+          <li v-for="detail in details">{{detail}}</li>
+        </ul>
+        <ul>
+          <li v-for="size in sizes">{{size}}</li>
+        </ul>
+        <div v-for="variant in variants" :key="variant.variantId">
+          <p>{{variant.variantColor}}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -36,8 +41,19 @@
         alttext: "A pair of socks",
         link: "https://www.google.com",
         inStock: true,
+        details: ["80% cotton", "20% polyester", "Gender-neutral"],
         inventory: 100,
-        onSale:true,
+        onSale: true,
+        variants: [{
+            variantId: 2234,
+            variantColor: "green",
+          },
+          {
+            variantId: 2235,
+            variantColor: "blue",
+          }
+        ],
+        sizes: ['S', 'M', 'L', 'XL', 'XXL', 'XXXL']
       }
     })
 
