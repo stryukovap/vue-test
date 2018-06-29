@@ -3,11 +3,20 @@
   <head>
     <meta charset="utf-8">
     <title>vue_test</title>
+    <link rel="stylesheet" href="src/css/style.css">
   </head>
   <body>
+    <div class="nav-bar"></div>
     <div id="app">
-      <h2>{{product}}</h2>
-      <p>{{description}}</p>
+      <div class="product">
+        <div class="product-image">
+          <img v-bind:src="image" v-bind:alt="alttext">
+        </div>
+        <div class="product-info">
+            <h1>{{product}}</h1>
+            <a v-bind:href="link" class="product-link">Show more</a>
+        </div>
+      </div>
     </div>
     <!-- <script src="/dist/build.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
@@ -16,7 +25,9 @@
       el:'#app',
       data: {
         product: "Socks",
-        description: "A pair of warm, fuzzy socks",
+        image: "src/assets/vmSocks-green-onWhite_preview.jpeg",
+        alttext: "A pair of socks",
+        link: "https://www.google.com"
       }
     })
     </script>
