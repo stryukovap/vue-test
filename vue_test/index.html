@@ -1,11 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>vue_test</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script src="/dist/build.js"></script>
-  </body>
+
+<head>
+  <meta charset="utf-8">
+  <title>vue_test</title>
+  <link rel="stylesheet" href="src/css/style.css">
+</head>
+
+<body>
+  <div class="nav-bar"></div>
+  <div id="app">
+    <div class="product">
+      <div class="product-image">
+        <img v-bind:src="image" v-bind:alt="alttext">
+      </div>
+      <div class="product-info">
+        <h1>{{ title }}</h1>
+        <p v-if="inStock">In Stock</p>
+        <p v-else :class="{outOfStock: !inStock}">Out of Stock</p>
+        <p v-if="onSale">{{sale}}</p>
+        <ul>
+          <li v-for="detail in details">{{ detail }}</li>
+        </ul>
+        <div v-for="(variant, index) in variants" :key="variant.variantId" class="color-box" :style="{backgroundColor:variant.variantColor}"
+          @mouseover="updateProduct(index)">
+        </div>
+        <button @click="addToCart" :disabled="!inStock" :class="{disabledButton: !inStock}">Add to Cart</button>
+        <!-- <button @click="removeFromCart">Remove from Cart</button> -->
+        <div class="cart">
+          <p>Cart({{ cart }})</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <script src="/dist/build.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+  <script>
+    var app = new Vue({
+      el: '#app',
+
+      data: {
+        brend: "Vue Mastery",
+        product: "Socks",
+        // image: "src/assets/vmSocks-green-onWhite_preview.jpeg",
+        selectedVariant:0,
+        alttext: "A pair of socks",
+        link: "https://www.google.com",
+        // inStock: false,
+        details: ["80% cotton", "20% polyester", "Gender-neutral"],
+        variants: [{
+            variantId: 2234,
+            variantColor: "green",
+            variantImage: "src/assets/vmSocks-green-onWhite_preview.jpeg",
+            variantQuatity:10,
+          },
+          {
+            variantId: 2235,
+            variantColor: "blue",
+            variantImage: "src/assets/vmSocks-blue-onWhite_preview.jpeg",
+            variantQuatity:0,
+          }
+        ],
+        cart: 0,
+        onSale:true,
+      },
+      computed: {
+        title() {
+          return this.brend + " " + this.product
+        },
+        image(){
+          return this.variants[this.selectedVariant].variantImage
+        },
+        inStock(){
+          return this.variants[this.selectedVariant].variantQuatity
+        },
+        sale(){
+          return this.brend + " " + this.product + " " + "on Sale"
+        }
+      },
+      methods: {
+        addToCart() {
+          this.cart += 1
+        },
+        removeFromCart() {
+          this.cart -= 1
+        },
+
+        updateProduct(index) {
+          this.selectedVariant = index,
+          console.log(index)
+        }
+      }
+    })
+
+  </script>
+</body>
+
 </html>
